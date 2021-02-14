@@ -1,68 +1,53 @@
-#include <bits/stdc++.h>
-#define SIZE 10
+#include <iostream>
+#define SIZE 20
 using namespace std;
-int finalLenta[SIZE][SIZE]={{0}};
-bool found=0;
-bool checkPosition(int lenta[][SIZE],int x,int y){
-   for(int i=0;i<SIZE;i++){
-       if(lenta[i][y]==1||lenta[x][i]==1){
+bool checkPosition(int lenta[SIZE][SIZE],int x,int y){
+    int i,j;
+    for(i=0;i<SIZE;i++){
+       if(lenta[x][i]==1){
            return 0;
        }
    }
-   int xx=x,n=0;
-   while(xx!=SIZE){
-       if(lenta[xx][y+n]==1||lenta[xx][y-n]==1){
+   for (i = x, j = y; i >= 0 && j >= 0; i--, j--){
+       if (lenta[i][j]){
            return 0;
        }
-       n++;
-       xx++;
    }
-   xx=x;
-   n=0;
-   while(xx!=-1){
-      if(lenta[xx][y+n]==1||lenta[xx][y-n]==1){
-         return 0;
-      }
-      n++;
-      xx--;
+   for (i = x, j = y; j >= 0 && i < SIZE; i++, j--){
+       if (lenta[i][j]){
+           return 0;
+       }
    }
    return 1;
 }
-void queens(int lenta[][SIZE],int index){
-
+bool queens(int lenta[SIZE][SIZE],int index){
     if(index==SIZE){
-        for(int i=0;i<SIZE;i++){
-            for(int j=0;j<SIZE;j++){
-                finalLenta[i][j]=lenta[i][j];
-            }
-        }
-        found=1;
-        return;
+        return 1;
     }
-    if(!found){
-        for(int i=0;i<SIZE;i++){
-            for(int j=0;j<SIZE;j++){
-                if(checkPosition(lenta,i,j)){
-                    lenta[i][j]=1;
-                    queens(lenta,index+1);
-                    lenta[i][j]=0;
-                }
+    for(int i=0;i<SIZE;i++){
+        if(checkPosition(lenta,i,index)){
+            lenta[i][index]=1;
+            if(queens(lenta,index+1)){
+                return 1;
             }
+            lenta[i][index]=0;
         }
     }
-
+    return 0;
 }
 
-int main(int argc, char *argv[]) {
-    int n;
-    n=SIZE;
+int main() {
     int lenta[SIZE][SIZE]={{0}};
-    queens(lenta,0);
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-           cout<<finalLenta[i][j];
+    if(queens(lenta,0)){
+        for(int i=0;i<SIZE;i++){
+            for(int j=0;j<SIZE;j++){
+                printf("%d",lenta[i][j]);
+            }
+            printf("\n");
         }
-        cout<<endl;
+    }
+    else{
+        printf("solution does not exist\n");
     }
     return 0;
 }
