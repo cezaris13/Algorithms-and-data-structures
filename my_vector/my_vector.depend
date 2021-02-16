@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1613486673 source:/home/pijus/Desktop/Programming/my_vector/main.c
+	<stdio.h>
+	<stdlib.h>
+	"vector.h"
+
+1613486620 /home/pijus/Desktop/Programming/my_vector/vector.h
+	"vector.c"
+
+1613488288 /home/pijus/Desktop/Programming/my_vector/vector.c
+	<stdlib.h>
+	<stdio.h>
+
+1613488641 source:/home/pijus/Desktop/ADS/my_vector/main.c
+	<stdio.h>
+	<stdlib.h>
+	"vector.h"
+
+1613488948 /home/pijus/Desktop/ADS/my_vector/vector.h
+	"vector.c"
+
+1613488623 /home/pijus/Desktop/ADS/my_vector/vector.c
+	<stdlib.h>
+	<stdio.h>
+
