@@ -82,7 +82,7 @@ void print_vector(vector v){
     printf("vector v size: %d\n",v.size);
     printf("vector v capacity: %d\n",v.capacity);
     for(int i=0;i<v.size;i++){
-         printf("vector element v[i]: %d\n",(int)v.items[i]);//for now with string
+         printf("vector element v[%d]: %s\n",i,(char*)(v.items[i]));//for now with string
     }
 }
 void vector_init(vector *v){

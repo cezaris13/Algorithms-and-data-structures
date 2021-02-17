@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "vector.h"
+
 int main()
 {
     vector(v);
@@ -10,7 +11,7 @@ int main()
     v.resize(&v,10);
     print_vector(v);
     v.push_back(&v,"11");
-    v.push_back(&v,12);
+//    v.push_back(&v,12);
     v.push_back(&v,"13");
     v.push_back(&v,"14");
     v.push_back(&v,"15");

@@ -41,13 +41,6 @@ int countKnights(int lenta[SIZE][SIZE]){
 }
 bool solve(int lenta[SIZE][SIZE],vector<pair<int,pair<int,int> > > probs,int index){
     if(countKnights(lenta)==12){
-  for(int i=0;i<SIZE;i++){
-                for(int j=0;j<SIZE;j++){
-                    printf("%2.1d",lenta[i][j]);
-                }
-                printf("\n");
-            }
-            printf("\n");
         if(checkUnused(lenta)){
             // for(int i=0;i<SIZE;i++){
             //     for(int j=0;j<SIZE;j++){
@@ -62,13 +55,13 @@ bool solve(int lenta[SIZE][SIZE],vector<pair<int,pair<int,int> > > probs,int ind
             return 0;
         }
     }
-    for(int i=index;i<SIZE*SIZE;i++){
-       if(lenta[probs[i].second.first][probs[i].second.second]!=1){
+    for(int i=index;i<probs.size();i++){
+        if(lenta[probs[i].second.first][probs[i].second.second]!=1){
            lenta[probs[i].second.first][probs[i].second.second]=1;
            if(solve(lenta,probs,i+1)){
                return 1;
            };
-           // solve(lenta,probs,i+1);
+        //    solve(lenta,probs,i+1);
            lenta[probs[i].second.first][probs[i].second.second]=0;
        }
     }
@@ -87,15 +80,16 @@ int Calc(int x,int y){
 }
 int main() {
     // freopen("rez.txt","w",stdout);
-    int index=0;
     int lenta[SIZE][SIZE]={{0}};
     vector<pair<int,pair<int,int> > > probs;
-    for(int i=0;i<SIZE;i++){
-        for(int j=0;j<SIZE;j++){
-            // printf("%2.1d",Calc(i,j));
-            probs.push_back(make_pair(Calc(i,j),make_pair(i,j)));
+    for(int i=1;i<SIZE-1;i++){
+        for(int j=1;j<SIZE-1;j++){
+            if(!((i==SIZE/2||i==SIZE/2-1)&&(j==SIZE/2||j==SIZE/2-1))){
+                if(!((i==1&&j==1)||(i==1&&j==SIZE-2)||(i==SIZE-2&&j==1)||(i==SIZE-2&&j==SIZE-2))){
+                    probs.push_back(make_pair(Calc(i,j),make_pair(i,j)));    
+                }
+            }
         }
-        // printf("\n");
     }
     sort(probs.rbegin(),probs.rend());
     // for(int i=0;i<probs.size();i++){
