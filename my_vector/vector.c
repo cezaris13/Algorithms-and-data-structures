@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #define INIT_CAP 6
+#define UNDEFINED -1
+#define SUCCESS 0
 typedef struct vector vector;
 struct vector{
     void **items;//one * wont help me to store data
@@ -11,12 +13,12 @@ struct vector{
     int (*Size)(vector);
     int (*is_empty)(vector);
     int (*is_full)(vector);
-    void (*resize)(vector *,int);
-    void (*push_back)(vector *,void *);
-    void (*set)(vector *,int, void *);
+    int (*resize)(vector *,int);
+    int (*push_back)(vector *,void *);
+    int (*set)(vector *,int, void *);
     void *(*get)(vector *,int);
-    void (*delete)(vector *,int);
-    void (*destroy)(vector *);
+    int (*delete)(vector *,int);
+    int (*destroy)(vector *);
     int (*find)(vector ,void *);
 };
 
@@ -30,24 +32,41 @@ int is_empty(vector v){
 int is_full(vector v){
     return(v.size==v.capacity?1:0);
 }
-void vector_resize(vector *v,int size){
-    if(size>v->capacity){
-        v->capacity=size;
-        v->items=realloc(v->items,sizeof(void*)*size);
+int vector_resize(vector *v,int size){
+    int status=UNDEFINED;
+    if(v){
+        if(size>v->capacity){
+            v->capacity=size;
+            v->items=realloc(v->items,sizeof(void*)*size);
+            status=SUCCESS;
+        }
     }
+    return status;
 }
-void vector_push_back(vector *v,void *item){
+int vector_push_back(vector *v,void *item){
+    int status=UNDEFINED;
     v->size=v->size+1;
     if(v->size>v->capacity){
-        vector_resize(v,v->size);
+        if(vector_resize(v,v->size)==0){
+            status=SUCCESS;
+        }
+    }
+    else{
+        status=SUCCESS;
     }
     v->items[v->size-1]=item;
+    return status;
 }
-void vector_set(vector *v,int index, void *item){
-    if(index<0||index>=v->size){
-        return;
+int vector_set(vector *v,int index, void *item){
+    int status=UNDEFINED;
+    if(v){
+        if(index<0||index>=v->size){
+            return status;
+        }
+        v->items[index]=item;
+        status=SUCCESS;
     }
-    v->items[index]=item;
+    return status;
 }
 void* vector_get(vector *v,int index){
     if(index<0||index>=v->size){
@@ -55,20 +74,28 @@ void* vector_get(vector *v,int index){
     }
     return v->items[index];
 }
-void vector_delete(vector *v,int index){
+int vector_delete(vector *v,int index){
+    int status=UNDEFINED;
     if(index<0||index>=v->size){
-        return;
+        return status;
     }
     v->size--;
     for(int i=index;i<v->size;i++){
         v->items[i]=v->items[i+1];
     }
     v->items[v->size+1]=NULL;
+    status=SUCCESS;
+    return status;
 }
-void vector_free(vector *v){
-    v->size=0;
-    v->capacity=0;
-    free(v->items);
+int vector_free(vector *v){
+    int status=UNDEFINED;
+    if(v){
+        v->size=0;
+        v->capacity=0;
+        free(v->items);
+        status=SUCCESS;
+    }
+    return status;
 }
 int find_val_id(vector v,void *val){
     for(int i=0;i<v.size;i++){
@@ -76,14 +103,15 @@ int find_val_id(vector v,void *val){
             return i;
         }
     }
-    return -1;
+    return UNDEFINED;
 }
 void print_vector(vector v){
     printf("vector v size: %d\n",v.size);
     printf("vector v capacity: %d\n",v.capacity);
     for(int i=0;i<v.size;i++){
-         printf("vector element v[%d]: %s\n",i,(char*)(v.items[i]));//for now with string
+         printf("vector element v[%d]: %d\n",i,(int)(v.items[i]));//for now with string
     }
+    printf("\n");
 }
 void vector_init(vector *v){
     v->capacity=INIT_CAP;
