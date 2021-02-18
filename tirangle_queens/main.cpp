@@ -1,5 +1,5 @@
 #include <iostream>
-#define SIZE 10
+#define SIZE 20
 using namespace std;
 bool checkPosition(int lenta[SIZE][SIZE],int x,int y){
     int i,j;
@@ -66,10 +66,14 @@ int main() {
     printf("num of queens: %d\n",num_of_queens);
     if(queens(lenta,0,num_of_queens)){
         for(int i=0;i<SIZE;i++){
-            for(int j=0;j<SIZE;j++){
-                printf("%2.1d",lenta[i][j]);
+            printf("%*s",SIZE-i,"");
+            int tempx=i;
+            for(int j=0;j<=i;j++){
+                printf("%d ",lenta[tempx][j]);
+                tempx--;
             }
             printf("\n");
+
         }
     }
     else{
