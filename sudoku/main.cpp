@@ -2,12 +2,29 @@
 #define SIZE 9
 using namespace std;
 void print(int sudoku[][SIZE]){
+    char line[]="----------------------";
     for(int i=0;i<SIZE;i++){
+        if(i%3==0&&i>0){
+            printf("%s\n",line);
+        }
         for(int j=0;j<SIZE;j++){
+            if(j%3==0&&j>0){
+                printf(" %c",'|');
+            }
             printf("%2.1d",sudoku[i][j]);
         }
         printf("\n");
     }
+}
+bool find_unassigned(int sudoku[][SIZE],int &x,int &y){
+    for(x=0;x<SIZE;x++){
+        for(y=0;y<SIZE;y++){
+            if(sudoku[x][y]==0){
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 bool check_sudoku(int sudoku[][SIZE],int x, int y,int val){
     for(int i=0;i<SIZE;i++){
@@ -31,21 +48,15 @@ bool check_sudoku(int sudoku[][SIZE],int x, int y,int val){
     }
     return 1;
 }
-bool solve(int sudoku[][SIZE],int x, int y){
-    if(x==SIZE-1&&y==SIZE){
+bool solve(int sudoku[][SIZE]){
+    int x,y;
+    if(!(find_unassigned(sudoku,x,y))){
         return 1;
-    }
-    if(y==SIZE){
-        y=0;
-        x++;
-    }
-    if(sudoku[x][y]!=0){
-        return solve(sudoku,x,y+1);
     }
     for(int i=1;i<=SIZE;i++){
         if(check_sudoku(sudoku,x,y,i)){
             sudoku[x][y]=i;
-            if(solve(sudoku,x,y+1)){
+            if(solve(sudoku)){
                 return 1;
             }
             sudoku[x][y]=0;
@@ -70,7 +81,7 @@ int main() {
         }
     }
 
-    if(solve(sudoku,0,0)){
+    if(solve(sudoku)){
         print(sudoku);
     }
     else{
