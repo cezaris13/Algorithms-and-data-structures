@@ -7,7 +7,7 @@
 #define SUCCESS 0
 typedef struct vector vector;
 struct vector{
-    void **items;//one * wont help me to store data
+    void **items;
     int capacity;
     int size;
     int (*Size)(vector);
