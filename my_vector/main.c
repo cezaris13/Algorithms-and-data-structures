@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "vector.h"
 void test(){
-    vector(v);
-//    vector v;
-//    vector_init(&v);
+//    vector(v);
+    vector v;
+    vector_init(&v);
     printf("initialization\n");
     print_vector(v);
     v.resize(&v,10);
-    printf("resizing vector\n");
+    printf("resized vector\n");
     print_vector(v);
     for(int i=0;i<15;i++){
         v.push_back(&v,i);
@@ -32,9 +32,9 @@ void test(){
     print_vector(v);
     printf("getting value of selected element\nvalue=%d\n",(v.get(&v,3)));
     v.delete(&v,4);
-    printf("delte element\n");
+    printf("delete element\n");
     print_vector(v);
-    printf("find element by its value\nid %d\n\n",v.find(v,14));
+    printf("find element by its value\nid %d\n\n",v.find(v,14));// change to "14"
     v.destroy(&v);
     printf("destroying vector\n");
     print_vector(v);

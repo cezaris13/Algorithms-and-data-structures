@@ -5,6 +5,7 @@
 #define INIT_CAP 6
 #define UNDEFINED -1
 #define SUCCESS 0
+//tepedef var
 typedef struct vector vector;
 struct vector{
     void **items;
@@ -22,14 +23,13 @@ struct vector{
     int (*find)(vector ,void *);
 };
 
-
 int vector_size(vector v){
     return v.size;
 }
 int is_empty(vector v){
     return (v.size>0?1:0);
 }
-int is_full(vector v){
+int is_full(vector v){//malloc todo
     return(v.size==v.capacity?1:0);
 }
 int vector_resize(vector *v,int size){
@@ -109,7 +109,7 @@ void print_vector(vector v){
     printf("vector v size: %d\n",v.size);
     printf("vector v capacity: %d\n",v.capacity);
     for(int i=0;i<v.size;i++){
-         printf("vector element v[%d]: %d\n",i,(int)(v.items[i]));//for now with string
+         printf("vector element v[%d]: %d\n",i,(int)(v.items[i]));//for now with int
     }
     printf("\n");
 }
