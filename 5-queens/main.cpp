@@ -1,11 +1,11 @@
 #include <bits/stdc++.h>
 #define SIZE 8
 using namespace std;
-bool checkUnused(int lenta[SIZE][SIZE]){
+bool checkUnused(int board[SIZE][SIZE]){
     bool vis[SIZE][SIZE]={{0}};
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            if(lenta[i][j]==1){
+            if(board[i][j]==1){
                 for(int k=0;k<SIZE;k++){
                     vis[k][j]=1;
                     vis[i][k]=1;
@@ -49,23 +49,23 @@ bool checkUnused(int lenta[SIZE][SIZE]){
     }
     return 1;
 }
-int countQueens(int lenta[SIZE][SIZE]){
+int countQueens(int board[SIZE][SIZE]){
     int count=0;
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            if(lenta[i][j]==1){
+            if(board[i][j]==1){
                 count++;
             }
         }
     }
     return count;
 }
-bool solve(int lenta[SIZE][SIZE],vector<pair<int,pair<int,int> > > probs,int index){
-    if(countQueens(lenta)==5){
-        if(checkUnused(lenta)){
+bool solve(int board[SIZE][SIZE],vector<pair<int,pair<int,int> > > probs,int index){
+    if(countQueens(board)==5){
+        if(checkUnused(board)){
             // for(int i=0;i<SIZE;i++){
             //     for(int j=0;j<SIZE;j++){
-            //         printf("%2.1d",lenta[i][j]);
+            //         printf("%2.1d",board[i][j]);
             //     }
             //     printf("\n");
             // }
@@ -77,13 +77,13 @@ bool solve(int lenta[SIZE][SIZE],vector<pair<int,pair<int,int> > > probs,int ind
         }
     }
     for(int i=index;i<SIZE*SIZE;i++){
-       if(lenta[probs[i].second.first][probs[i].second.second]!=1){
-           lenta[probs[i].second.first][probs[i].second.second]=1;
-           if(solve(lenta,probs,i+1)){
+       if(board[probs[i].second.first][probs[i].second.second]!=1){
+           board[probs[i].second.first][probs[i].second.second]=1;
+           if(solve(board,probs,i+1)){
                return 1;
            };
-           // solve(lenta,probs,i+1);
-           lenta[probs[i].second.first][probs[i].second.second]=0;
+           // solve(board,probs,i+1);
+           board[probs[i].second.first][probs[i].second.second]=0;
        }
     }
     return 0;
@@ -122,8 +122,7 @@ int Calc(int x,int y){
 }
 int main() {
     // freopen("rez.txt","w",stdout);
-    int index=0;
-    int lenta[SIZE][SIZE]={{0}};
+    int board[SIZE][SIZE]={{0}};
     vector<pair<int,pair<int,int> > > probs;
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -131,10 +130,10 @@ int main() {
         }
     }
     sort(probs.rbegin(),probs.rend());
-    if(solve(lenta,probs,0)){
+    if(solve(board,probs,0)){
         for(int i=0;i<SIZE;i++){
             for(int j=0;j<SIZE;j++){
-                printf("%2.1d",lenta[i][j]);
+                printf("%2.1d",board[i][j]);
             }
             printf("\n");
         }
