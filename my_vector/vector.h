@@ -18,6 +18,5 @@
 //#define vector(vec) vector vec;  vector_init(&vec);
 
 void vector_init(vector *v);
-/* int find_val_id(vector v,void *val); */
 void print_vector(vector v);
 #endif // SARASAS_H_INCLUDED

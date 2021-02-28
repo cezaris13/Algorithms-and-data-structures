@@ -1,5 +1,5 @@
 #include <iostream>
-#define SIZE 20
+#define SIZE 21
 using namespace std;
 bool checkPosition(int board[SIZE][SIZE],int x,int y){
     int i,j;
