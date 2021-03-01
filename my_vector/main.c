@@ -7,12 +7,13 @@ void test(){
     vector_init(&v);
     printf("initialization\n");
     print_vector(v);
-    v.resize(&v,10);
+    v.resize(&v,100);
     printf("resized vector\n");
     print_vector(v);
-    for(int i=0;i<15;i++){
+    for(int i=0;i<1001;i++){
         v.push_back(&v,i);
     }
+    //example with strings(change print function from (int) to (char*) )
 //    v.push_back(&v,"11");
 ////    v.push_back(&v,12);
 //    v.push_back(&v,"13");
@@ -27,7 +28,7 @@ void test(){
 ////    v.set(&v,3, "64");
     printf("push_back() function\n");
     print_vector(v);
-    v.set(&v,3, 100);
+    v.set(&v,3, 10);
     printf("setting variable value\n");
     print_vector(v);
     printf("getting value of selected element\nvalue=%d\n",(v.get(&v,3)));

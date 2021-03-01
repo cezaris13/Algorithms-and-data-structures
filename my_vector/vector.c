@@ -2,9 +2,7 @@
 #define filec
 #include <stdlib.h>
 #include <stdio.h>
-#define INIT_CAP 6
-#define UNDEFINED -1
-#define SUCCESS 0
+
 //tepedef var
 typedef struct vector vector;
 struct vector{
@@ -30,12 +28,12 @@ int is_empty(vector v){
     return (v.size>0?1:0);
 }
 int is_full(vector v){//malloc todo
-    return(v.size==v.capacity?1:0);
+    return(v.size==MAX_SIZE?1:0);
 }
 int vector_resize(vector *v,int size){
     int status=UNDEFINED;
     if(v){
-        if(size>v->capacity){
+        if(size>v->capacity && size<=MAX_SIZE){
             v->capacity=size;
             v->items=realloc(v->items,sizeof(void*)*size);
             status=SUCCESS;
@@ -45,16 +43,18 @@ int vector_resize(vector *v,int size){
 }
 int vector_push_back(vector *v,void *item){
     int status=UNDEFINED;
-    v->size=v->size+1;
-    if(v->size>v->capacity){
-        if(vector_resize(v,v->size)==0){
+    if(v->size+1<=MAX_SIZE){
+        v->size=v->size+1;
+        if(v->size>v->capacity){
+            if(vector_resize(v,v->size)==UNDEFINED){
+                status=SUCCESS;
+            }
+        }
+        else{
             status=SUCCESS;
         }
+        v->items[v->size-1]=item;
     }
-    else{
-        status=SUCCESS;
-    }
-    v->items[v->size-1]=item;
     return status;
 }
 int vector_set(vector *v,int index, void *item){
