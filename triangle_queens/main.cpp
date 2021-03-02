@@ -4,14 +4,14 @@
 using namespace std;
 bool checkPosition(int board[SIZE][SIZE],int x,int y,int size){
     int i,j;
-    for (i = x, j = y; j >= 0 && i < size; i++, j--){
+    for (i=x, j=y; j>=0 && i<size; i++, j--){
         if (board[i][j]==1){
             return 0;
         }
     }
     return 1;
 }
-void print(int board[SIZE][SIZE],int size){
+void print(int board[SIZE][SIZE],int size){//fancy printing
     for(int i=0;i<size;i++){
         printf("%*s",size-i,"");
         int tempx=i;
@@ -22,18 +22,18 @@ void print(int board[SIZE][SIZE],int size){
         printf("\n");
   }
 }
-bool cities(int board[SIZE][SIZE],int index,int num_of_cities,int size,bool vis[],int count){
+bool cities(int board[SIZE][SIZE],int index,int num_of_cities,int size,bool visited[],int count){
     if(count==num_of_cities){
         return 1;
     }
-    for(int i=0;i<size-index;i++){
-        if(checkPosition(board,i,index,size)&&!vis[i]){
+    for(int i=0;i<size-index;i++){//go through all elements in
+        if(checkPosition(board,i,index,size)&&!visited[i]){
             board[i][index]=1;
-            vis[i]=1;
-            if(cities(board,index+1,num_of_cities,size,vis,count+1)){
+            visited[i]=1;
+            if(cities(board,index+1,num_of_cities,size,visited,count+1)){//backtracking
                 return 1;
             }
-            vis[i]=0;
+            visited[i]=0;
             board[i][index]=0;
         }
     }
@@ -43,7 +43,7 @@ int main() {
     int size;
     printf("enter size of triangle:");
     cin>>size;
-    bool vis[size]={0};
+    bool visited[size]={0};
     if(size>SIZE){
         printf("this triangle is too large : ( \n");
         return 0;
@@ -51,7 +51,7 @@ int main() {
     int board[SIZE][SIZE]={{0}};
     int num_of_cities=(2*size+1)/3;//there is proven formula for that
     printf("number of cities: %d\n\n",num_of_cities);
-    if(cities(board,0,num_of_cities,size,vis,0)){
+    if(cities(board,0,num_of_cities,size,visited,0)){
         print(board,size);
     }
     else{
