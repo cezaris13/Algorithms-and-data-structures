@@ -6,3 +6,5 @@ build:
 	./main.o
 compile:
 	gcc ${SRC} -o main.o
+debug:
+	gcc ${SRC} -g -o debug
