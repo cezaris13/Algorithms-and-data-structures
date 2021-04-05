@@ -10,7 +10,7 @@ void test(){
     v.resize(&v,100);
     printf("resized vector\n");
     print_vector(v);
-    for(int i=0;i<1001;i++){
+    for(int i=0;i<15;i++){
         v.push_back(&v,i);
     }
     //example with strings(change print function from (int) to (char*) )

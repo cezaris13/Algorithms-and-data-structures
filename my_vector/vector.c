@@ -43,7 +43,7 @@ int is_full(){//malloc todo
 int vector_resize(vector *v,int size){
     int status=UNDEFINED;
     if(v){
-        if(size>v->capacity && size<=MAX_SIZE){
+        if(size>v->capacity && !is_full()){
             v->capacity=size;
             v->items=realloc(v->items,sizeof(void*)*size);
             status=SUCCESS;
@@ -53,7 +53,7 @@ int vector_resize(vector *v,int size){
 }
 int vector_push_back(vector *v,void *item){
     int status=UNDEFINED;
-    if(v->size+1<=MAX_SIZE){
+    if(!is_full()){
         v->size=v->size+1;
         if(v->size>v->capacity){
             if(vector_resize(v,v->size)==UNDEFINED){
@@ -103,6 +103,7 @@ int vector_free(vector *v){
         v->size=0;
         v->capacity=0;
         free(v->items);
+//        v->items=NULL;
         status=SUCCESS;
     }
     return status;
