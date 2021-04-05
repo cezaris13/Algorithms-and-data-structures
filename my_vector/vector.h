@@ -36,7 +36,7 @@
 #define INIT_CAP 6
 #define UNDEFINED -1
 #define SUCCESS 0
-#define MAX_SIZE 200
+/* #define MAX_SIZE 200 */
 #include "vector.c"
 
 void vector_init(vector *v);//initialize vector (size 0, capacity=INIT_CAP)

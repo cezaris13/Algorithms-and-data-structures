@@ -27,8 +27,18 @@ int vector_size(vector v){
 int is_empty(vector v){
     return (v.size>0?1:0);
 }
-int is_full(vector v){//malloc todo
-    return(v.size==MAX_SIZE?1:0);
+int is_full(){//malloc todo
+    void *temp = malloc(sizeof(void*));
+    if(temp == NULL)
+    {
+        free(temp);
+        return 1;
+    }
+    else
+    {
+        free(temp);
+        return 0;
+    }
 }
 int vector_resize(vector *v,int size){
     int status=UNDEFINED;
