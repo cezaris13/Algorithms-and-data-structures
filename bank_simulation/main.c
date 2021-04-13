@@ -3,12 +3,14 @@
 #include <time.h>
 #include "queue.h"
 #include "big_int.h"
-struct ConsultantType{
+
+struct Consultant{
     int totalConsultants;
-    char timeForOneClient[256];//big int
+    char timeForOneClient[256];
     big_int *timeForOneClientBig;
 };
-typedef struct ConsultantType Consultant;
+typedef struct Consultant Consultant;
+
 void readData(Consultant *experiencedConsultant,Consultant *newConsultant,int *prob){
     FILE *readData=fopen("duota.txt", "r");
     fscanf(readData, "%d%*[^\n]",&(experiencedConsultant->totalConsultants));
@@ -18,6 +20,7 @@ void readData(Consultant *experiencedConsultant,Consultant *newConsultant,int *p
     fscanf(readData, "%d%*[^\n]",prob);
     fclose(readData);
 }
+
 void printBigIntCustom(big_int* num,FILE *write){
     if(num->sign=='-'&&num->data[0]!=0){
         fprintf(write,"%c",num->sign);
@@ -26,22 +29,25 @@ void printBigIntCustom(big_int* num,FILE *write){
         fprintf(write,"%c", (num->data[i] + '0'));
     }
 }
+
 void checkWork(Consultant consultant,int prob,int specificTime,int seed){
     //data for statistics
     int queSize=0;
     int *clientsWaitTime=calloc(specificTime, sizeof(int));
     int clients=0;
     double *totalOneConsultantClients=calloc(consultant.totalConsultants, sizeof(double));
-    srand(seed);
     Queue listOfCustomers;
+
+    srand(seed);
     initialize(&listOfCustomers);
     FILE *write=fopen("rez.txt", "a");
     big_int **consultantList=calloc(consultant.totalConsultants, sizeof(big_int));
-    for (int i=0;i<consultant.totalConsultants;i++) {
+    for (int i=0;i<consultant.totalConsultants;i++) {//consultants inicialization
        consultantList[i]=new_big_int("0");
     }
+
     for(int i=1;i<=specificTime;i++){
-        for(int j=0;j<consultant.totalConsultants;j++){
+        for(int j=0;j<consultant.totalConsultants;j++){//Decreasing time
             if(compare_big_int(consultantList[j],new_big_int("0"))){
                 consultantList[j]=sub_big_int(consultantList[j],new_big_int("1"));
             }
@@ -49,7 +55,7 @@ void checkWork(Consultant consultant,int prob,int specificTime,int seed){
         if(rand()%100<prob){
             fprintf(write,"\nclient did come to the meeting %d\n\n",i);
 
-            if(isEmpty(&listOfCustomers)){
+            if(isEmpty(&listOfCustomers)){//if queue is empty check if consultants are free
                 int in=0;
                 for(int j=0;j<consultant.totalConsultants;j++){
                     if(!compare_big_int(consultantList[j],new_big_int("0"))){
@@ -60,14 +66,14 @@ void checkWork(Consultant consultant,int prob,int specificTime,int seed){
                         break;
                     }
                 }
-                if(!in){
+                if(!in){//if consultants are not free, fo to queue
                     if(!isFull(&listOfCustomers)){
                         enqueue(&listOfCustomers, i);
                     }
                 }
             }
             else{
-                if(!isFull(&listOfCustomers)){
+                if(!isFull(&listOfCustomers)){//if queue is not empty go to queue
                     enqueue(&listOfCustomers, i);
                 }
             }
@@ -75,10 +81,10 @@ void checkWork(Consultant consultant,int prob,int specificTime,int seed){
         else{
             fprintf(write,"\nclient did not come to the meeting %d\n\n",i);
         }
-        for(int j=0;j<consultant.totalConsultants;j++){
+        for(int j=0;j<consultant.totalConsultants;j++){//check if consultants are free if yes 1 customer from queue goes to him
             if(!compare_big_int(consultantList[j],new_big_int("0"))&&(listOfCustomers.count)>0){
                 clientsWaitTime[clients]=i-getFirst(&listOfCustomers);//time Spent in queue
-                clients++;//how many cliens came to The concultants
+                clients++;//how many cliens came to the concultants
                 consultantList[j]=consultant.timeForOneClientBig;
                 totalOneConsultantClients[j]++;
                 dequeue(&listOfCustomers);
@@ -92,6 +98,7 @@ void checkWork(Consultant consultant,int prob,int specificTime,int seed){
        fprintf(write,"queue size:%d\n",listOfCustomers.count);
        queSize=(queSize<(listOfCustomers.count)?(listOfCustomers.count):queSize);
     }
+
     /* statistics */
     double sum=0;
     int maxTime=0;
@@ -125,7 +132,7 @@ int main(){
     fclose(write);
     int seed;
     /* seed=10; */
-    printf("iveskite norima seed'a\n");
+    printf("enter specific seed\n");
     scanf("%d",&seed);
     Consultant newConsultant,experiencedConsultant;
     readData(&experiencedConsultant,&newConsultant,&prob);

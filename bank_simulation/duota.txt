@@ -1,5 +1,5 @@
-4 Kasininku skaicius(fast ones)
-8 Kliento aptarnavimo laikas(fast ones)
-10 Kasininku skaicius(fast ones)
-20 Kliento aptarnavimo laikas(fast ones)
-50 kliento atvykimo tikimybe (%)
+6 Kasininku skaicius
+8 Kliento aptarnavimo laikas
+10 Kasininku skaicius
+16 Kliento aptarnavimo laikas
+70 kliento atvykimo tikimybe (%)
