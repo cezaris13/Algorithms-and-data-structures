@@ -2,7 +2,7 @@
 #define infinity 100000
 using namespace std;
 void dijkstra(int size,int **graph,int start, int finish){
-    priority_queue<pair<int,int> > q;
+    priority_queue<pair<int,int> > pQueue;
     bool visited[size];
     int distances[size];
     for(int i=0;i<size;i++){
@@ -10,22 +10,20 @@ void dijkstra(int size,int **graph,int start, int finish){
         visited[i]=0;
     }
     distances[start]=0;
-    q.push(make_pair(0,start));
-    while(!q.empty()){
-        int curr=q.top().second;
-        q.pop();
+    pQueue.push(make_pair(0,start));
+    while(!pQueue.empty()){
+        int curr=pQueue.top().second;
+        pQueue.pop();
         if(!visited[curr]){
             visited[curr]=1;
             for(int i=0;i<size;i++){
                 if(graph[curr][i]!=0){
                     if(distances[curr]+graph[curr][i]<distances[i]){
                         distances[i]=distances[curr]+graph[curr][i];
-                        q.push(make_pair(-distances[i], i));
+                        pQueue.push(make_pair(-distances[i], i));
                     }
                 }
-
             }
-
         }
     }
     printf("distance from %d to %d is: %d\n",start,finish,distances[finish]);
@@ -65,8 +63,24 @@ int main(int argc, char *argv[]) {
     }
     fd.close();
     int start,finish;
+    char print;
+    printf("print graph? y/n\n");
+    scanf("%c",&print);
+    if(print=='y'){
+        for(int i=0;i<size;i++){
+            for(int j=0;j<size;j++){
+                printf("%2.1d ",graph[i][j]);
+            }
+            printf("\n");
+        }
+        printf("\n");
+    }
     printf("enter cities\n");
     cin>>start>>finish;
+    if(start>=size||finish>=size||start<0||finish<0){
+        printf("invalid city number\n");
+        return 0;
+    }
     if(checkIfReachable(size,graph,start,finish)){
         dijkstra(size,graph,start,finish);
     }

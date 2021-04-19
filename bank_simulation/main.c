@@ -145,5 +145,6 @@ int main(){
     checkWork(experiencedConsultant, prob,specificTime,seed);
     printf("\nnew Consultants\n");
     checkWork(newConsultant, prob,specificTime,seed);
+
     return 0;
 }
