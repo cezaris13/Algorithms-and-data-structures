@@ -5,6 +5,7 @@ void dijkstra(int size,int **graph,int start, int finish){
     priority_queue<pair<int,int> > pQueue;
     bool visited[size];
     int distances[size];
+    int parent[size];
     for(int i=0;i<size;i++){
         distances[i]=infinity;
         visited[i]=0;
@@ -19,6 +20,7 @@ void dijkstra(int size,int **graph,int start, int finish){
             for(int i=0;i<size;i++){
                 if(graph[curr][i]!=0){
                     if(distances[curr]+graph[curr][i]<distances[i]){
+                        parent[i]=curr;
                         distances[i]=distances[curr]+graph[curr][i];
                         pQueue.push(make_pair(-distances[i], i));
                     }
@@ -27,6 +29,21 @@ void dijkstra(int size,int **graph,int start, int finish){
         }
     }
     printf("distance from %d to %d is: %d\n",start,finish,distances[finish]);
+    printf("the route:\n");
+    int currVertice=finish;
+    int route[size];
+    int i=0;
+    while(currVertice!=start){
+        route[i]=currVertice;
+        currVertice=parent[currVertice];
+        i++;
+    }
+    route[i]=currVertice;
+    for(int j=i;j>=0;j--){
+        printf("%d ",route[j]);
+
+    }
+
 }
 void dfs(int size,int **graph,int pos, bool visited[]){
     visited[pos]=1;
@@ -52,14 +69,18 @@ bool checkIfReachable(int size,int **graph,int start,int finish){
 
 int main(int argc, char *argv[]) {
     ifstream fd("data.txt");
-    int size;
-    fd>>size;
+    int size,n;
+    fd>>size>>n;
     int **graph=(int**)malloc(size*sizeof(int*));
     for(int i=0;i<size;i++){
         graph[i]=(int*)malloc(size*sizeof(int));
-        for(int j=0;j<size;j++){
-            fd>>graph[i][j];
-        }
+    }
+    for(int i=0;i<n;i++){
+        int a,b,dist;
+        fd>>a>>b>>dist;
+        graph[a-1][b-1]=dist;
+        graph[b-1][a-1]=dist;
+        // fd>>graph[i][j];
     }
     fd.close();
     int start,finish;
