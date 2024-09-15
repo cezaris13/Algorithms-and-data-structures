@@ -1,9 +1,3 @@
-##
-# Dijkstra
-#
-# @file
-# @version 0.1
-
 SRC =  main.cpp
 FLAGS =
 COMPILER = g++
@@ -14,6 +8,3 @@ compile:
 	${COMPILER} ${SRC} -o main.o
 debug:
 	${COMPILER} ${SRC} -g -o debug
-
-
-# end
