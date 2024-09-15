@@ -1,4 +1,4 @@
-SRC =  big_int.c queue.c main.c
+SRC =  main.c
 FLAGS =
 COMPILER = gcc
 build:

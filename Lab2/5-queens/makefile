@@ -1,6 +1,6 @@
-SRC =  big_int.c queue.c main.c
+SRC =  main.cpp
 FLAGS =
-COMPILER = gcc
+COMPILER = g++
 build:
 	${COMPILER} ${SRC} -o main.o
 	./main.o

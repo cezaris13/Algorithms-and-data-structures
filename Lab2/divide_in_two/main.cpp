@@ -65,5 +65,3 @@ int main()
              << " two subsets of equal sum";
     return 0;
 }
-
-// This code is contributed by rathbhupendra
